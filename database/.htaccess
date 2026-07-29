@@ -1,0 +1,10 @@
+# ==========================================
+# BLINDAJE DE SEGURIDAD - CARPETA DATABASE
+# ==========================================
+# Denegar el acceso web directo a respaldos o scripts SQL.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Deny from all
+</IfModule>

@@ -1,0 +1,33 @@
+# ==========================================
+# BLINDAJE Y ENRUTAMIENTO - RAÍZ BARBERÍA
+# ==========================================
+
+# 1. Desactivar el listado de directorios para que nadie pueda navegar tus carpetas
+Options -Indexes
+
+# 2. Bloquear el acceso a archivos de configuración, logs, SQL y metadatos
+<FilesMatch "\.(sql|env|ini|log|git|md|json|lock)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 3. Bloquear el acceso web a scripts de desarrollo y mantenimiento
+<FilesMatch "^(refactor|enhance|fix_|update_).*\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 4. Redirigir de forma transparente todo el tráfico a la carpeta public/
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^$ public/ [L]
+    RewriteRule (.*) public/$1 [L]
+</IfModule>

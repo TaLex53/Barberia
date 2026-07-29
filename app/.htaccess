@@ -1,0 +1,12 @@
+# ==========================================
+# BLINDAJE DE SEGURIDAD - CARPETA APP
+# ==========================================
+# Denegar el acceso web directo desde el navegador a toda la carpeta app/
+# Esto protege tus credenciales de base de datos y lógica interna.
+# PHP seguirá pudiendo leer estos archivos internamente sin problemas.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Deny from all
+</IfModule>
