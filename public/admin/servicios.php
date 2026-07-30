@@ -171,6 +171,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                 data-nombre="<?php echo htmlspecialchars($servicio['nombre']); ?>"
                                 data-duracion="<?php echo $servicio['duracion_minutos']; ?>"
                                 data-precio="<?php echo $servicio['precio']; ?>"
+                                data-descripcion="<?php echo htmlspecialchars($servicio['descripcion'] ?? ''); ?>"
                                 data-activo="<?php echo $servicio['activo']; ?>">
                                 
                                 <td class="py-4 px-4">
@@ -192,7 +193,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                     </span>
                                 </td>
                                 <td class="py-4 px-4 text-right">
-                                    <button onclick='openModal("editar", {"id": "<?php echo $servicio["id"]; ?>", "nombre": "<?php echo addslashes($servicio["nombre"]); ?>", "duracion": "<?php echo $servicio["duracion_minutos"]; ?>", "precio": "<?php echo $servicio["precio"]; ?>", "activo": "<?php echo $servicio["activo"]; ?>"})' class="text-slate-500 hover:text-white transition-colors p-1"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button onclick='openModal("editar", {"id": "<?php echo $servicio["id"]; ?>", "nombre": "<?php echo addslashes($servicio["nombre"]); ?>", "duracion": "<?php echo $servicio["duracion_minutos"]; ?>", "precio": "<?php echo $servicio["precio"]; ?>", "descripcion": "<?php echo addslashes(str_replace(array("\r", "\n"), array("", "\\n"), $servicio["descripcion"] ?? "")); ?>", "activo": "<?php echo $servicio["activo"]; ?>"})' class="text-slate-500 hover:text-white transition-colors p-1"><span class="material-symbols-outlined text-[18px]">edit</span></button>
                                 </td>
                             </tr>
                             <?php
@@ -228,6 +229,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 <div>
                     <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">Nombre del Servicio</label>
                     <input type="text" name="nombre" id="formNombre" required class="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">Descripción (Opcional)</label>
+                    <textarea name="descripcion" id="formDescripcion" rows="2" class="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 transition-colors placeholder:text-gray-600" placeholder="Ej: Servicio de corte premium con masaje capilar..."></textarea>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-4">
@@ -324,6 +330,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
         const formNombre = document.getElementById('formNombre');
         const formDuracion = document.getElementById('formDuracion');
         const formPrecio = document.getElementById('formPrecio');
+        const formDescripcion = document.getElementById('formDescripcion');
         const formActivo = document.getElementById('formActivo');
         const modalTitle = document.getElementById('modalTitle');
 
@@ -335,6 +342,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 formNombre.value = data.nombre;
                 formDuracion.value = data.duracion;
                 formPrecio.value = data.precio;
+                formDescripcion.value = data.descripcion || '';
                 formActivo.value = data.activo;
             } else {
                 modalTitle.textContent = 'Nuevo Servicio';
@@ -342,6 +350,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 formNombre.value = '';
                 formDuracion.value = '45';
                 formPrecio.value = '10000';
+                formDescripcion.value = '';
                 formActivo.value = '1';
             }
             
@@ -410,6 +419,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                     nombre: row.dataset.nombre,
                     duracion: row.dataset.duracion,
                     precio: row.dataset.precio,
+                    descripcion: row.dataset.descripcion,
                     activo: row.dataset.activo
                 };
                 

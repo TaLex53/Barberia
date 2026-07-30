@@ -52,12 +52,14 @@ try {
             theme: { extend: { colors: { primary: '#ffffff' } } }
         }
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" defer></script>
 
     <style>
         body {
@@ -297,41 +299,44 @@ try {
                                     class="text-gray-300 hover:text-white font-medium transition-colors">¡Contáctanos
                                     por Whatsapp!</a>
                             </div>
-                            <div class="flex items-center gap-3 text-sm text-gray-400 relative group">
-                                <span class="material-symbols-outlined text-gray-500 text-[18px]">schedule</span>
-                                <span class="underline text-gray-400 hover:text-white cursor-pointer">Ver horario de
-                                    atención</span>
-
-                                <!-- Popover Schedule -->
-                                <div
-                                    class="absolute left-8 top-full mt-2 w-56 bg-[#0a0a0a] rounded-xl shadow-xl p-4 text-gray-300 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 transform origin-top-left scale-95 group-hover:scale-100 border border-white/10">
-                                    <ul class="space-y-3 text-[13px] font-bold">
-                                        <li class="flex justify-between border-b border-white/5 pb-2">
-                                            <span>Lunes</span> <span class="text-gray-500 font-medium">08:00 -
+                            <div class="flex flex-col text-sm text-gray-400">
+                                <div class="flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-gray-500 text-[18px]">schedule</span>
+                                    <span class="underline text-gray-400 hover:text-white cursor-pointer"
+                                        onclick="document.getElementById('horarios-list').classList.toggle('hidden')">Ver
+                                        horario de atención</span>
+                                </div>
+                                <div id="horarios-list"
+                                    class="hidden mt-3 w-full bg-[#080808] rounded-xl border border-white/10 p-4">
+                                    <ul class="space-y-3 text-[12px] font-bold text-white">
+                                        <li class="flex justify-between border-b border-white/10 pb-2">
+                                            <span>Lunes</span> <span class="text-gray-400 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/5 pb-2">
-                                            <span>Martes</span> <span class="text-gray-500 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-white/10 pb-2">
+                                            <span>Martes</span> <span class="text-gray-400 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/5 pb-2">
-                                            <span>Miércoles</span> <span class="text-gray-500 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-white/10 pb-2">
+                                            <span>Miércoles</span> <span class="text-gray-400 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/5 pb-2">
-                                            <span>Jueves</span> <span class="text-gray-500 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-white/10 pb-2">
+                                            <span>Jueves</span> <span class="text-gray-400 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/5 pb-2">
-                                            <span>Viernes</span> <span class="text-gray-500 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-white/10 pb-2">
+                                            <span>Viernes</span> <span class="text-gray-400 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/5 pb-2">
-                                            <span>Sábado</span> <span class="text-gray-500 font-medium">11:00 -
+                                        <li class="flex justify-between border-b border-white/10 pb-2">
+                                            <span>Sábado</span> <span class="text-gray-400 font-medium">11:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between"><span>Domingo</span> <span
-                                                class="text-gray-500 font-medium">11:00 - 20:00</span></li>
+                                        <li class="flex justify-between">
+                                            <span>Domingo</span> <span class="text-gray-400 font-medium">11:00 -
+                                                20:00</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -435,10 +440,15 @@ try {
                                             <span
                                                 class="text-base font-black text-white">$<?php echo number_format($s['precio'], 0, ',', '.'); ?></span>
                                         </div>
-                                        <button type="button"
-                                            class="text-xs font-semibold text-gray-300 hover:text-white underline transition-colors mb-6 text-left"
-                                            onclick="Swal.fire({title: '<?php echo addslashes($s['nombre']); ?>', text: '<?php echo addslashes($s['descripcion'] ?? ''); ?>', background: '#111', color: '#fff', confirmButtonColor: '#fff', confirmButtonText: '<span style=\'color:#000\'>OK</span>'})">Más
-                                            información</button>
+                                        <div class="mb-6">
+                                            <div id="desc-<?php echo $s['id']; ?>"
+                                                class="text-xs text-gray-400 hidden mt-2 mb-3 leading-relaxed">
+                                                <?php echo !empty($s['descripcion']) ? nl2br(htmlspecialchars($s['descripcion'])) : 'Sin descripción disponible por el momento.'; ?>
+                                            </div>
+                                            <button type="button" id="btn-desc-<?php echo $s['id']; ?>"
+                                                class="text-xs font-semibold text-gray-300 hover:text-white underline transition-colors text-left"
+                                                onclick="toggleDescription(<?php echo $s['id']; ?>)">Más información</button>
+                                        </div>
                                     </div>
                                     <div class="flex justify-end mt-auto">
                                         <button id="btn-service-<?php echo $s['id']; ?>"
@@ -458,20 +468,27 @@ try {
     </section>
 
     <!-- Modal Booking Flow -->
-    <div id="booking-modal" class="fixed inset-0 z-[100] bg-[#e5e7eb] hidden flex-col w-full h-full">
+    <div id="booking-modal" class="fixed inset-0 z-[100] bg-[#080808] hidden flex-col w-full h-full">
 
         <!-- Modal Header -->
-        <div class="bg-white flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
+        <div class="bg-[#0a0a0a] flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0">
             <div class="flex items-center gap-4">
                 <!-- Using an image or text for the logo -->
-                <img src="assets/img/cutlevel_reserva.png" alt="Cut Level" class="h-8 object-contain hidden sm:block">
-                <div>
-                    <h2 class="text-sm font-bold text-gray-800">Cut Level Studio</h2>
-                    <p class="text-xs text-gray-500">Sucursal Puerto Varas</p>
+                <img src="assets/img/cutlevel_reserva.png" alt="Cut Level"
+                    class="h-8 object-contain hidden sm:block filter invert">
+                <!-- Desktop Title -->
+                <div class="hidden sm:block">
+                    <h2 class="text-sm font-bold text-white">Cut Level Studio</h2>
+                    <p class="text-xs text-gray-400">Sucursal Puerto Varas</p>
                 </div>
+                <!-- Mobile Back Button -->
+                <button type="button" onclick="handleMobileBack()" class="flex sm:hidden items-center text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-solid fa-chevron-left mr-2 text-sm"></i>
+                    <span class="font-medium text-base">Anterior</span>
+                </button>
             </div>
             <button onclick="closeBookingModal()"
-                class="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-gray-100 transition-colors">
+                class="w-10 h-10 rounded-full flex items-center justify-center text-gray-400 hover:bg-white/10 transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
@@ -481,35 +498,38 @@ try {
 
             <!-- Left Column: Steps -->
             <div
-                class="lg:w-8/12 flex flex-col bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden h-full">
+                class="lg:w-8/12 flex flex-col bg-[#0a0a0a] rounded-lg border border-white/10 shadow-sm overflow-hidden h-full">
 
-                <div class="px-6 py-5 border-b border-gray-100 shrink-0">
-                    <h2 class="text-lg font-bold text-gray-800" id="step-title">Selecciona fecha y hora de tu servicio
+                <div class="px-6 py-5 border-b border-white/10 shrink-0">
+                    <h2 class="text-lg font-bold text-white" id="step-title">Selecciona fecha y hora de tu servicio
                     </h2>
                 </div>
 
                 <!-- Stepper Progress Tabs -->
-                <div class="flex items-center justify-between border-b border-gray-200 px-6 shrink-0">
+                <div class="flex items-center justify-between border-b border-white/10 px-6 shrink-0">
                     <button
-                        class="step-tab flex-1 py-4 text-sm font-bold flex justify-center items-center gap-2 border-b-2 transition-all border-[#111827] text-[#111827]"
+                        onclick="goToStep(1)"
+                        class="step-tab flex-1 py-3 sm:py-4 text-[10px] sm:text-sm font-bold flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 border-b-2 transition-all border-white text-white hover:bg-white/5 cursor-pointer text-center leading-tight"
                         id="tab-1">
                         <span
-                            class="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px]">1</span>
-                        Fecha y hora
+                            class="w-5 h-5 sm:w-5 sm:h-5 rounded-full border border-current flex items-center justify-center text-[10px] shrink-0">1</span>
+                        <span>Fecha y hora</span>
                     </button>
                     <button
-                        class="step-tab flex-1 py-4 text-sm font-bold flex justify-center items-center gap-2 border-b-2 transition-all border-transparent text-gray-400"
+                        onclick="goToStep(2)"
+                        class="step-tab flex-1 py-3 sm:py-4 text-[10px] sm:text-sm font-bold flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 border-b-2 transition-all border-transparent text-gray-500 hover:bg-white/5 cursor-pointer text-center leading-tight"
                         id="tab-2">
                         <span
-                            class="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px]">2</span>
-                        Profesional
+                            class="w-5 h-5 sm:w-5 sm:h-5 rounded-full border border-current flex items-center justify-center text-[10px] shrink-0">2</span>
+                        <span>Profesional</span>
                     </button>
                     <button
-                        class="step-tab flex-1 py-4 text-sm font-bold flex justify-center items-center gap-2 border-b-2 transition-all border-transparent text-gray-400"
+                        onclick="goToStep(3)"
+                        class="step-tab flex-1 py-3 sm:py-4 text-[10px] sm:text-sm font-bold flex flex-col sm:flex-row justify-center items-center gap-1 sm:gap-2 border-b-2 transition-all border-transparent text-gray-500 hover:bg-white/5 cursor-pointer text-center leading-tight"
                         id="tab-3">
                         <span
-                            class="w-5 h-5 rounded-full border border-current flex items-center justify-center text-[10px]">3</span>
-                        Datos de contacto
+                            class="w-5 h-5 sm:w-5 sm:h-5 rounded-full border border-current flex items-center justify-center text-[10px] shrink-0">3</span>
+                        <span>Datos de contacto</span>
                     </button>
                 </div>
 
@@ -519,40 +539,57 @@ try {
                         <div class="space-y-8">
                             <div>
                                 <div class="flex items-center justify-between mb-4">
-                                    <div class="text-sm font-bold text-gray-800" id="month-display">Mes</div>
+                                    <div class="text-sm font-bold text-white" id="month-display">Mes</div>
                                 </div>
-                                <div class="flex gap-2 overflow-x-auto pb-4 no-scrollbar items-center" id="date-picker">
-                                    <!-- JS Generated Dates -->
+                                <div class="relative flex items-center group/slider">
+                                    <button type="button" onclick="document.getElementById('date-picker').scrollBy({left: -200, behavior: 'smooth'})" class="absolute -left-3 z-10 w-8 h-8 flex items-center justify-center bg-[#111] border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-colors opacity-0 group-hover/slider:opacity-100 shadow-lg">
+                                        <i class="fa-solid fa-chevron-left text-sm"></i>
+                                    </button>
+                                    
+                                    <div class="flex gap-2 sm:gap-3 overflow-x-auto py-2 px-1 no-scrollbar items-center w-full scroll-smooth" id="date-picker">
+                                        <!-- JS Generated Dates -->
+                                    </div>
+
+                                    <button type="button" onclick="document.getElementById('date-picker').scrollBy({left: 200, behavior: 'smooth'})" class="absolute -right-3 z-10 w-8 h-8 flex items-center justify-center bg-[#111] border border-white/10 rounded-full text-white hover:bg-white hover:text-black transition-colors opacity-0 group-hover/slider:opacity-100 shadow-lg">
+                                        <i class="fa-solid fa-chevron-right text-sm"></i>
+                                    </button>
                                 </div>
                             </div>
 
                             <div>
                                 <div id="time-loading" class="text-gray-400 text-xs font-bold uppercase hidden">Buscando
                                     horarios...</div>
-                                <div id="time-empty" class="text-red-500 text-xs font-bold uppercase hidden">Día sin
-                                    disponibilidad.</div>
+                                <div id="time-empty" class="hidden flex flex-col items-center justify-center py-12 text-center">
+                                    <div class="w-16 h-16 rounded-full border-2 border-white/20 flex items-center justify-center mb-4">
+                                        <i class="fa-regular fa-clock text-2xl text-gray-400"></i>
+                                    </div>
+                                    <h3 class="text-white font-semibold text-base mb-6">No hay horas disponibles para este día</h3>
+                                    <button type="button" onclick="findNextAvailableDay()" class="bg-[#1f2937] hover:bg-[#374151] text-white px-6 py-3 rounded-lg text-sm font-medium transition-colors border border-white/10">
+                                        Ir a la siguiente hora disponible
+                                    </button>
+                                </div>
 
-                                <div id="time-container" class="space-y-6 hidden">
-                                    <div
-                                        class="flex flex-col sm:flex-row sm:items-start gap-4 border-t border-gray-100 pt-6">
-                                        <div class="sm:w-20 shrink-0 mt-2">
-                                            <span class="text-xs italic text-gray-500 font-serif">Mañana</span>
+                                <div id="time-container" class="space-y-10 hidden pt-6">
+                                    <div class="flex flex-col gap-5">
+                                        <div class="flex items-center gap-4">
+                                            <span class="text-sm text-gray-300 font-medium">Mañana</span>
+                                            <div class="flex-grow h-[1px] bg-white/10"></div>
                                         </div>
-                                        <div class="flex flex-wrap gap-3" id="time-grid-manana"></div>
+                                        <div class="flex flex-wrap gap-2 sm:gap-3" id="time-grid-manana"></div>
                                     </div>
-                                    <div
-                                        class="flex flex-col sm:flex-row sm:items-start gap-4 border-t border-gray-100 pt-6">
-                                        <div class="sm:w-20 shrink-0 mt-2">
-                                            <span class="text-xs italic text-gray-500 font-serif">Tarde</span>
+                                    <div class="flex flex-col gap-5">
+                                        <div class="flex items-center gap-4">
+                                            <span class="text-sm text-gray-300 font-medium">Tarde</span>
+                                            <div class="flex-grow h-[1px] bg-white/10"></div>
                                         </div>
-                                        <div class="flex flex-wrap gap-3" id="time-grid-tarde"></div>
+                                        <div class="flex flex-wrap gap-2 sm:gap-3" id="time-grid-tarde"></div>
                                     </div>
-                                    <div
-                                        class="flex flex-col sm:flex-row sm:items-start gap-4 border-t border-gray-100 pt-6">
-                                        <div class="sm:w-20 shrink-0 mt-2">
-                                            <span class="text-xs italic text-gray-500 font-serif">Noche</span>
+                                    <div class="flex flex-col gap-5">
+                                        <div class="flex items-center gap-4">
+                                            <span class="text-sm text-gray-300 font-medium">Noche</span>
+                                            <div class="flex-grow h-[1px] bg-white/10"></div>
                                         </div>
-                                        <div class="flex flex-wrap gap-3" id="time-grid-noche"></div>
+                                        <div class="flex flex-wrap gap-2 sm:gap-3" id="time-grid-noche"></div>
                                     </div>
                                 </div>
                             </div>
@@ -566,29 +603,31 @@ try {
                         <div id="barber-empty" class="text-red-500 text-xs font-bold uppercase hidden">Nadie disponible
                             a esta hora.</div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="barber-grid">
+                        <div class="flex flex-col border border-white/10 rounded-xl bg-[#111] overflow-hidden" id="barber-grid">
                             <?php foreach ($barberos as $b): ?>
-                                <div class="selectable-card barber-card cursor-pointer rounded-xl p-4 border border-gray-200 bg-white hover:border-[#111827] hover:shadow-md transition-all duration-300 relative"
+                                <div class="barber-card cursor-pointer p-4 border-b last:border-b-0 border-white/10 hover:bg-white/5 transition-all duration-300 relative flex flex-row items-center gap-4 w-full"
                                     data-id="<?php echo $b['id']; ?>"
                                     data-name="<?php echo htmlspecialchars($b['nombre'] . ' ' . $b['apellido']); ?>">
-                                    <div
-                                        class="checkmark hidden absolute top-3 right-3 w-5 h-5 rounded-full bg-[#111827] flex items-center justify-center">
-                                        <span
-                                            class="material-symbols-outlined text-white text-[12px] font-black">done</span>
+                                    
+                                    <!-- Avatar -->
+                                    <div class="w-12 h-12 rounded-full bg-[#222] border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                                        <?php if (!empty($b['foto'])): ?>
+                                            <img src="<?php echo htmlspecialchars($b['foto']); ?>" class="w-full h-full object-cover">
+                                        <?php else: ?>
+                                            <span class="material-symbols-outlined text-2xl text-gray-300">person</span>
+                                        <?php endif; ?>
                                     </div>
-                                    <div class="flex flex-col items-center text-center space-y-3">
-                                        <div
-                                            class="w-16 h-16 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center overflow-hidden">
-                                            <?php if (!empty($b['foto'])): ?>
-                                                <img src="<?php echo htmlspecialchars($b['foto']); ?>"
-                                                    class="w-full h-full object-cover">
-                                            <?php else: ?>
-                                                <span class="material-symbols-outlined text-3xl text-gray-300">person</span>
-                                            <?php endif; ?>
-                                        </div>
-                                        <h4 class="text-gray-800 font-bold text-sm tracking-wide">
-                                            <?php echo htmlspecialchars($b['nombre']); ?>
+                                    
+                                    <!-- Info -->
+                                    <div class="flex flex-col flex-grow text-left">
+                                        <h4 class="text-white font-bold text-sm tracking-wide m-0 p-0">
+                                            <?php echo htmlspecialchars($b['nombre'] . ' ' . $b['apellido']); ?>
                                         </h4>
+                                    </div>
+
+                                    <!-- Checkmark -->
+                                    <div class="checkmark hidden shrink-0 w-6 h-6 rounded-full bg-white flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-black text-[14px] font-black">done</span>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -601,48 +640,51 @@ try {
                             onsubmit="event.preventDefault(); submitBooking();">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-700 mb-1">Nombre *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Nombre *</label>
                                     <input type="text" id="client-name" required
-                                        class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 text-sm focus:ring-1 focus:ring-[#111827] focus:border-[#111827] transition-all outline-none">
+                                        class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-700 mb-1">Apellido *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Apellido *</label>
                                     <input type="text" id="client-lastname" required
-                                        class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 text-sm focus:ring-1 focus:ring-[#111827] focus:border-[#111827] transition-all outline-none">
+                                        class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-700 mb-1">Email *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Email *</label>
                                     <input type="email" id="client-email" required
-                                        class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 text-sm focus:ring-1 focus:ring-[#111827] focus:border-[#111827] transition-all outline-none">
+                                        class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-700 mb-1">Teléfono *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Teléfono *</label>
                                     <input type="tel" id="client-phone" required placeholder="+56 9 1234 5678"
                                         oninput="formatChileanPhone(this)"
-                                        class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 text-sm focus:ring-1 focus:ring-[#111827] focus:border-[#111827] transition-all outline-none">
+                                        class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
                                 </div>
                             </div>
                             <div>
-                                <label class="block text-xs font-bold text-gray-700 mb-1">Notas / Observaciones
+                                <label class="block text-xs font-bold text-gray-300 mb-1">Notas / Observaciones
                                     (Opcional)</label>
                                 <textarea id="client-obs" rows="2"
-                                    class="w-full bg-white border border-gray-300 rounded-lg px-4 py-2.5 text-gray-800 text-sm focus:ring-1 focus:ring-[#111827] focus:border-[#111827] transition-all outline-none"></textarea>
+                                    class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none"></textarea>
                             </div>
 
-                            <div class="mt-4 flex flex-col gap-3 border-t border-gray-100 pt-4">
+                            <div class="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
                                 <label class="flex items-start gap-3 cursor-pointer group">
                                     <div class="relative flex items-center justify-center mt-0.5 shrink-0">
                                         <input type="checkbox" required id="client-terms"
-                                            class="peer appearance-none w-5 h-5 border border-gray-300 rounded bg-white checked:bg-[#111827] checked:border-[#111827] transition-all cursor-pointer">
+                                            class="peer appearance-none w-5 h-5 border border-white/20 rounded bg-[#111] checked:bg-white checked:border-white transition-all cursor-pointer">
                                         <span
-                                            class="material-symbols-outlined absolute text-white text-[14px] opacity-0 peer-checked:opacity-100 pointer-events-none font-bold">check</span>
+                                            class="material-symbols-outlined absolute text-[#111] text-[14px] opacity-0 peer-checked:opacity-100 pointer-events-none font-black">check</span>
                                     </div>
-                                    <span class="text-xs text-gray-600 leading-relaxed">
-                                        Acepto las Políticas de reserva y privacidad de Cut Level.
+                                    <span class="text-xs text-gray-400 leading-relaxed">
+                                        Acepto las Políticas de reserva y privacidad de Cut Level Studio y recibir e-mails, mensajes de WhatsApp y otras comunicaciones enviados por medio de Cut Level Studio.
                                     </span>
                                 </label>
+                                <p class="text-[10px] text-gray-500 mt-1 pl-8">
+                                    Este sitio está protegido por reCAPTCHA y se aplican la <a href="https://policies.google.com/privacy" target="_blank" class="underline hover:text-white">Política de Privacidad</a> y las <a href="https://policies.google.com/terms" target="_blank" class="underline hover:text-white">Condiciones de Servicio</a> de Google.
+                                </p>
                             </div>
                         </form>
                     </div>
@@ -652,34 +694,34 @@ try {
 
             <!-- Right Column: Summary Card -->
             <div class="lg:w-4/12 hidden lg:flex flex-col gap-4">
-                <div class="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
-                    <div class="px-6 py-4 border-b border-gray-100 text-center">
-                        <h3 class="text-sm font-bold text-gray-700">Información de tus servicios</h3>
+                <div class="bg-[#0a0a0a] rounded-lg border border-white/10 overflow-hidden shadow-sm">
+                    <div class="px-6 py-4 border-b border-white/10 text-center">
+                        <h3 class="text-sm font-bold text-white">Información de tus servicios</h3>
                     </div>
 
                     <div class="p-4">
-                        <div class="bg-[#f3f4f6] rounded-lg border border-[#111827]/20 p-5">
+                        <div class="bg-[#111] rounded-lg border border-white/10 p-5">
                             <h4 id="summary-service-name"
-                                class="font-bold text-gray-800 text-sm mb-3 border-b border-gray-300/30 pb-2">Selecciona
+                                class="font-bold text-white text-sm mb-3 border-b border-white/10 pb-2">Selecciona
                                 un servicio</h4>
 
                             <div class="space-y-2 mt-3">
                                 <div class="flex items-center gap-2">
                                     <span class="material-symbols-outlined text-gray-500 text-[16px]">payments</span>
-                                    <span id="summary-price" class="text-sm font-medium text-gray-700">$0</span>
+                                    <span id="summary-price" class="text-sm font-medium text-gray-300">$0</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span
                                         class="material-symbols-outlined text-gray-500 text-[16px]">calendar_today</span>
-                                    <span id="summary-date" class="text-sm font-medium text-gray-700">-</span>
+                                    <span id="summary-date" class="text-sm font-medium text-gray-300">-</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span class="material-symbols-outlined text-gray-500 text-[16px]">schedule</span>
-                                    <span id="summary-time" class="text-sm font-medium text-gray-700">-</span>
+                                    <span id="summary-time" class="text-sm font-medium text-gray-300">-</span>
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span class="material-symbols-outlined text-gray-500 text-[16px]">person</span>
-                                    <span id="summary-barber" class="text-sm font-medium text-gray-700">-</span>
+                                    <span id="summary-barber" class="text-sm font-medium text-gray-300">-</span>
                                 </div>
                             </div>
                         </div>
@@ -690,19 +732,35 @@ try {
         </div> <!-- End Modal Body Grid -->
 
         <!-- Modal Footer (Action Buttons) -->
-        <div class="bg-white border-t border-gray-200 px-6 py-4 shrink-0 flex justify-end gap-3 items-center">
-            <button onclick="prevStep()" id="prev-btn"
-                class="hidden px-5 py-2.5 rounded-lg border border-gray-300 text-gray-600 text-sm font-bold hover:bg-gray-50 transition-colors">
-                Atrás
-            </button>
-            <button id="next-btn" onclick="nextStep()"
-                class="px-6 py-2.5 rounded-lg bg-[#96ac9f] text-white text-sm font-bold hover:bg-[#7e9587] transition-colors hidden">
-                Siguiente
-            </button>
-            <button id="submit-btn" onclick="submitBooking()"
-                class="px-6 py-2.5 rounded-lg bg-[#111827] text-white text-sm font-bold hover:bg-[#1f2937] transition-colors hidden shadow-md">
-                Confirmar Cita
-            </button>
+        <div class="bg-[#0a0a0a] border-t border-white/10 shrink-0 w-full">
+            <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-8 py-4 flex justify-between items-center">
+                
+                <!-- Left side -->
+                <div class="flex items-center overflow-hidden pr-2">
+                    <button id="prev-btn" onclick="prevStep()" style="display: none;"
+                        class="hidden sm:block px-5 py-2.5 rounded-lg border border-white/20 text-gray-300 text-sm font-bold hover:bg-white/10 transition-colors">
+                        Atrás
+                    </button>
+                    <!-- Mobile Summary -->
+                    <div id="mobile-footer-summary" class="flex flex-col md:hidden text-left">
+                        <span id="mobile-sum-service" class="text-gray-300 font-bold text-sm truncate">Selecciona un servicio</span>
+                        <span id="mobile-sum-price" class="text-white font-bold text-sm truncate">$0</span>
+                        <span id="mobile-sum-datetime" class="text-gray-400 text-xs truncate">-</span>
+                    </div>
+                </div>
+
+                <!-- Right side -->
+                <div class="flex gap-3 items-center shrink-0">
+                    <button id="next-btn" onclick="nextStep()" disabled
+                        class="px-6 py-2.5 rounded-lg bg-[#1f2937] text-gray-500 cursor-not-allowed text-sm font-bold transition-colors hidden shadow-md">
+                        Siguiente
+                    </button>
+                    <button id="submit-btn" onclick="submitBooking()"
+                        class="px-6 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors hidden shadow-md">
+                        Confirmar Cita
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -716,8 +774,6 @@ try {
                     <span id="cart-count">0</span> servicios seleccionados
                 </h3>
                 <p class="text-gray-300 text-xs sm:text-sm font-semibold" id="cart-total">$0</p>
-                <p class="text-[10px] text-gray-500 mt-1">Desarrollado por <span class="font-bold text-gray-400">Cut
-                        Level</span></p>
             </div>
             <button onclick="openBookingModal()"
                 class="bg-white text-black font-bold uppercase tracking-widest text-xs sm:text-sm px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors shadow-md">
@@ -850,10 +906,39 @@ try {
         const sumTime = document.getElementById('summary-time');
         const sumBarber = document.getElementById('summary-barber');
 
+        function formatTimeRange(startStr, durMin) {
+            if (!startStr) return '';
+            try {
+                let parts = startStr.trim().split(' ');
+                let timeParts = parts[0].split(':');
+                let h = parseInt(timeParts[0]);
+                let m = parseInt(timeParts[1]);
+                let ampm = parts[1] ? parts[1].toLowerCase() : '';
+                if (ampm === 'pm' && h < 12) h += 12;
+                if (ampm === 'am' && h === 12) h = 0;
+                let date = new Date();
+                date.setHours(h, m + durMin, 0, 0);
+                let eh = date.getHours();
+                let em = date.getMinutes();
+                let eampm = eh >= 12 ? 'pm' : 'am';
+                eh = eh % 12;
+                if (eh === 0) eh = 12;
+                return startStr.toLowerCase() + ' - ' + eh + ':' + (em < 10 ? '0' : '') + em + ' ' + eampm;
+            } catch(e) {
+                return startStr + ' (' + durMin + ' min)';
+            }
+        }
+
         function updateSummary() {
+            const mService = document.getElementById('mobile-sum-service');
+            const mPrice = document.getElementById('mobile-sum-price');
+            const mDatetime = document.getElementById('mobile-sum-datetime');
+
             if (selectedServices.length === 0) {
                 sumService.textContent = 'Selecciona un servicio';
                 sumPrice.textContent = '$0';
+                if(mService) mService.textContent = 'Selecciona un servicio';
+                if(mPrice) mPrice.textContent = '$0';
             } else {
                 let names = selectedServices.map(s => s.name).join(' + ');
                 let total = selectedServices.reduce((acc, s) => acc + s.price, 0);
@@ -862,9 +947,19 @@ try {
                 sumService.textContent = names;
                 sumPrice.textContent = '$' + new Intl.NumberFormat('es-CL').format(total);
                 sumTime.textContent = selectedTimeDisplay ? selectedTimeDisplay + ' (' + dur + ' min)' : '-';
+                
+                if(mService) mService.textContent = names;
+                if(mPrice) mPrice.textContent = '$' + new Intl.NumberFormat('es-CL').format(total);
             }
             sumDate.textContent = selectedDateDisplay || '-';
             sumBarber.textContent = selectedBarberName || '-';
+
+            if (mDatetime) {
+                let dur = selectedServices.reduce((acc, s) => acc + s.duration, 0);
+                let timeRange = selectedTimeDisplay ? formatTimeRange(selectedTimeDisplay, dur) : '';
+                let dtString = (selectedDateDisplay || '') + (timeRange ? ' - ' + timeRange : '');
+                mDatetime.textContent = dtString || '-';
+            }
         }
 
         // Cart Logic
@@ -904,23 +999,48 @@ try {
             }
         }
 
-        // Step Navigation
+        function toggleDescription(id) {
+            const descDiv = document.getElementById('desc-' + id);
+            const btn = document.getElementById('btn-desc-' + id);
+            if (descDiv.classList.contains('hidden')) {
+                descDiv.classList.remove('hidden');
+                btn.innerText = 'Menos información';
+            } else {
+                descDiv.classList.add('hidden');
+                btn.innerText = 'Más información';
+            }
+        }
+
+        // Stepper Navigation
         function updateIndicators() {
             for (let i = 1; i <= 3; i++) {
                 const tab = document.getElementById('tab-' + i);
                 if (i <= currentStep) {
-                    tab.classList.remove('border-transparent', 'text-gray-400');
-                    tab.classList.add('border-[#111827]', 'text-[#111827]');
+                    tab.classList.remove('border-transparent', 'text-gray-500');
+                    tab.classList.add('border-white', 'text-white');
                     tab.querySelector('span').classList.remove('border-current', 'text-[10px]');
-                    tab.querySelector('span').classList.add('bg-[#111827]', 'text-white', 'border-transparent');
+                    tab.querySelector('span').classList.add('bg-white', 'text-black', 'border-transparent');
                     tab.querySelector('span').innerHTML = i < currentStep ? '<span class="material-symbols-outlined text-[12px] font-bold">check</span>' : i;
                 } else {
-                    tab.classList.remove('border-[#111827]', 'text-[#111827]');
-                    tab.classList.add('border-transparent', 'text-gray-400');
-                    tab.querySelector('span').classList.remove('bg-[#111827]', 'text-white', 'border-transparent');
+                    tab.classList.remove('border-white', 'text-white');
+                    tab.classList.add('border-transparent', 'text-gray-500');
+                    tab.querySelector('span').classList.remove('bg-white', 'text-black', 'border-transparent');
                     tab.querySelector('span').classList.add('border-current', 'text-[10px]');
                     tab.querySelector('span').innerHTML = i;
                 }
+            }
+        }
+
+        function setNextBtnEnabled(enabled) {
+            const nextBtn = document.getElementById('next-btn');
+            if (enabled) {
+                nextBtn.disabled = false;
+                nextBtn.classList.remove('bg-[#1f2937]', 'text-gray-500', 'cursor-not-allowed');
+                nextBtn.classList.add('bg-white', 'text-black', 'hover:bg-gray-200');
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.classList.remove('bg-white', 'text-black', 'hover:bg-gray-200');
+                nextBtn.classList.add('bg-[#1f2937]', 'text-gray-500', 'cursor-not-allowed');
             }
         }
 
@@ -928,25 +1048,29 @@ try {
             document.querySelectorAll('.booking-step').forEach(el => el.classList.add('hidden'));
             document.getElementById('step-' + step).classList.remove('hidden');
 
-            // Buttons logic
             const prevBtn = document.getElementById('prev-btn');
-            nextBtn.classList.add('hidden');
-            submitBtn.classList.add('hidden');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
 
             if (step > 1) {
-                prevBtn.classList.remove('hidden');
+                if (prevBtn) prevBtn.style.display = '';
             } else {
-                prevBtn.classList.add('hidden');
+                if (prevBtn) prevBtn.style.display = 'none';
             }
 
             if (step === 1) {
                 initDatePicker();
-                if (selectedTimeId) nextBtn.classList.remove('hidden');
+                setNextBtnEnabled(!!selectedTimeId);
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            } else if (step === 2) {
+                setNextBtnEnabled(!!selectedBarberId);
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            } else if (step === 3) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
             }
-            if (step === 2) {
-                if (selectedBarberId) nextBtn.classList.remove('hidden');
-            }
-            if (step === 3) submitBtn.classList.remove('hidden');
 
             updateIndicators();
         }
@@ -977,6 +1101,40 @@ try {
             }
         };
 
+        window.goToStep = (targetStep) => {
+            if (targetStep < currentStep) {
+                // Allow going backward anytime
+                currentStep = targetStep;
+                showStep(currentStep);
+            } else if (targetStep > currentStep) {
+                // If trying to jump forward, validate completion
+                if (targetStep === 2 && !selectedTimeId) {
+                    return;
+                }
+                if (targetStep === 3) {
+                    if (!selectedTimeId || !selectedBarberId) {
+                        return;
+                    }
+                }
+                
+                // If moving from step 1 directly to 2 or 3, load barbers if not loaded
+                if (currentStep === 1 && targetStep >= 2) {
+                    loadAvailableBarbers();
+                }
+
+                currentStep = targetStep;
+                showStep(currentStep);
+            }
+        };
+
+        window.handleMobileBack = () => {
+            if (currentStep > 1) {
+                prevStep();
+            } else {
+                closeBookingModal();
+            }
+        };
+
         // Open/Close Modal
         window.openBookingModal = () => {
             if (selectedServices.length === 0) {
@@ -995,7 +1153,7 @@ try {
             updateSummary();
 
             // Reset barber selection
-            document.querySelectorAll('.barber-card').forEach(c => c.classList.remove('selected', 'border-[#111827]', 'shadow-md'));
+            document.querySelectorAll('.barber-card').forEach(c => c.classList.remove('selected', 'border-white', 'shadow-md'));
 
             // Reset date picker to force re-render
             document.getElementById('date-picker').innerHTML = '';
@@ -1027,17 +1185,17 @@ try {
         document.querySelectorAll('.barber-card').forEach(card => {
             card.addEventListener('click', () => {
                 document.querySelectorAll('.barber-card').forEach(c => {
-                    c.classList.remove('selected', 'border-[#111827]', 'shadow-md');
+                    c.classList.remove('selected', 'bg-white/10');
                     c.querySelector('.checkmark').classList.add('hidden');
                 });
-                card.classList.add('selected', 'border-[#111827]', 'shadow-md');
+                card.classList.add('selected', 'bg-white/10');
                 card.querySelector('.checkmark').classList.remove('hidden');
 
                 selectedBarberId = card.dataset.id;
                 selectedBarberName = card.dataset.name;
                 updateSummary();
 
-                nextBtn.classList.remove('hidden');
+                setNextBtnEnabled(true);
             });
         });
 
@@ -1067,22 +1225,30 @@ try {
                 const isoDate = `${yyyy}-${mm}-${dd}`;
 
                 const dateBtn = document.createElement('div');
-                dateBtn.className = 'date-btn min-w-[50px] flex flex-col items-center justify-center gap-2 cursor-pointer transition-all shrink-0 py-2';
+                dateBtn.className = 'date-btn w-[46px] py-2 rounded-full flex flex-col items-center justify-center gap-0.5 cursor-pointer transition-all shrink-0 border border-transparent hover:border-white/20';
                 dateBtn.innerHTML = `
-                    <span class="text-[11px] font-bold text-gray-400 tracking-wide">${dayName}</span>
-                    <div class="day-circle w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-gray-800 transition-colors">
-                        ${String(dayNum).padStart(2, '0')}
-                    </div>
+                    <span class="day-name text-[11px] font-medium text-gray-500 tracking-wide">${dayName}</span>
+                    <span class="day-num text-lg font-bold text-white">${String(dayNum).padStart(2, '0')}</span>
                 `;
 
                 dateBtn.onclick = () => {
-                    document.querySelectorAll('.day-circle').forEach(d => {
-                        d.classList.remove('bg-[#111827]', 'text-white');
-                        d.classList.add('text-gray-800');
+                    document.querySelectorAll('.date-btn').forEach(d => {
+                        d.classList.remove('bg-white');
+                        const nameSpan = d.querySelector('.day-name');
+                        nameSpan.classList.remove('text-gray-800', 'font-bold');
+                        nameSpan.classList.add('text-gray-500', 'font-medium');
+                        const numSpan = d.querySelector('.day-num');
+                        numSpan.classList.remove('text-black');
+                        numSpan.classList.add('text-white');
                     });
-                    const circle = dateBtn.querySelector('.day-circle');
-                    circle.classList.add('bg-[#111827]', 'text-white');
-                    circle.classList.remove('text-gray-800');
+                    
+                    dateBtn.classList.add('bg-white');
+                    const nameSpan = dateBtn.querySelector('.day-name');
+                    nameSpan.classList.remove('text-gray-500', 'font-medium');
+                    nameSpan.classList.add('text-gray-800', 'font-bold');
+                    const numSpan = dateBtn.querySelector('.day-num');
+                    numSpan.classList.remove('text-white');
+                    numSpan.classList.add('text-black');
 
                     selectedDateISO = isoDate;
                     selectedDateDisplay = `${dayNum} de ${monthName.toLowerCase()} de ${yyyy}`;
@@ -1093,11 +1259,15 @@ try {
                     selectedBarberName = '';
 
                     updateSummary();
-                    nextBtn.classList.add('hidden');
+                    setNextBtnEnabled(false);
 
                     loadAvailableTimes(selectedDateISO);
                 };
                 picker.appendChild(dateBtn);
+
+                if (i === 0) {
+                    dateBtn.click();
+                }
             }
         }
 
@@ -1134,16 +1304,16 @@ try {
 
                     disponibles.forEach(h => {
                         const timeBtn = document.createElement('div');
-                        timeBtn.className = 'time-slot-btn px-4 py-2 rounded-lg border border-gray-300 bg-white flex items-center justify-center cursor-pointer hover:border-[#111827] transition-all active:scale-95 group text-sm font-bold text-gray-700';
+                        timeBtn.className = 'time-slot-btn px-4 py-2 rounded-lg border border-white/10 bg-[#111] flex items-center justify-center cursor-pointer hover:border-white transition-all active:scale-95 group text-sm font-bold text-white';
                         timeBtn.innerHTML = `<span>${h.hora_display.toLowerCase()}</span>`;
 
                         timeBtn.onclick = () => {
                             document.querySelectorAll('.time-slot-btn').forEach(t => {
-                                t.classList.remove('border-[#111827]', 'bg-[#111827]', 'text-white');
-                                t.classList.add('border-gray-300', 'bg-white', 'text-gray-700');
+                                t.classList.remove('border-white', 'bg-white', 'text-black');
+                                t.classList.add('border-white/10', 'bg-[#111]', 'text-white');
                             });
-                            timeBtn.classList.add('border-[#111827]', 'bg-[#111827]', 'text-white');
-                            timeBtn.classList.remove('border-gray-300', 'bg-white', 'text-gray-700');
+                            timeBtn.classList.add('border-white', 'bg-white', 'text-black');
+                            timeBtn.classList.remove('border-white/10', 'bg-[#111]', 'text-white');
 
                             selectedTimeId = h.id;
                             selectedTimeDisplay = h.hora_display;
@@ -1153,7 +1323,7 @@ try {
                             selectedBarberName = '';
 
                             updateSummary();
-                            nextBtn.classList.remove('hidden');
+                            setNextBtnEnabled(true);
                         };
 
                         if (h.turno === 'Mañana') {
@@ -1187,13 +1357,13 @@ try {
             loading.classList.remove('hidden');
             empty.classList.add('hidden');
             grid.classList.add('hidden');
-            nextBtn.classList.add('hidden');
+            setNextBtnEnabled(false);
 
             // Reset selection
             selectedBarberId = null;
             selectedBarberName = '';
             cards.forEach(c => {
-                c.classList.remove('selected', 'border-white', 'bg-white/20');
+                c.classList.remove('selected', 'bg-white/10');
                 c.querySelector('.checkmark').classList.add('hidden');
             });
             updateSummary();
@@ -1214,9 +1384,9 @@ try {
                     cards.forEach(card => {
                         const bId = card.dataset.id;
                         if (availableIds.includes(bId) || availableIds.includes(parseInt(bId))) {
-                            card.style.display = 'block';
+                            card.classList.remove('hidden');
                         } else {
-                            card.style.display = 'none';
+                            card.classList.add('hidden');
                         }
                     });
                 })
@@ -1224,6 +1394,40 @@ try {
                     loading.classList.add('hidden');
                 });
         }
+
+        window.findNextAvailableDay = () => {
+            const buttons = document.querySelectorAll('.date-btn');
+            let foundSelected = false;
+            let nextButton = null;
+
+            for (let i = 0; i < buttons.length; i++) {
+                if (buttons[i].classList.contains('bg-white')) {
+                    foundSelected = true;
+                } else if (foundSelected) {
+                    nextButton = buttons[i];
+                    break;
+                }
+            }
+
+            if (nextButton) {
+                // Smooth scroll to the next button
+                const picker = document.getElementById('date-picker');
+                picker.scrollTo({
+                    left: nextButton.offsetLeft - picker.offsetLeft - 50,
+                    behavior: 'smooth'
+                });
+                nextButton.click();
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Agenda completada',
+                    text: 'No hemos cargado más fechas disponibles en el sistema. Intenta nuevamente más adelante.',
+                    background: '#111',
+                    color: '#fff',
+                    confirmButtonColor: '#374151'
+                });
+            }
+        };
 
         // Form Submit
         window.submitBooking = () => {

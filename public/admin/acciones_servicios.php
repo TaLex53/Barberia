@@ -13,26 +13,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nombre = trim($_POST['nombre'] ?? '');
     $duracion = (int)($_POST['duracion_minutos'] ?? 45);
     $precio = (float)($_POST['precio'] ?? 0);
+    $descripcion = trim($_POST['descripcion'] ?? '');
     $activo = isset($_POST['activo']) && $_POST['activo'] == '1' ? 1 : 0;
 
     try {
         if ($accion === 'crear') {
-            $stmt = $pdo->prepare("INSERT INTO servicios (nombre, duracion_minutos, precio, activo) VALUES (:nombre, :duracion, :precio, :activo)");
+            $stmt = $pdo->prepare("INSERT INTO servicios (nombre, duracion_minutos, precio, descripcion, activo) VALUES (:nombre, :duracion, :precio, :descripcion, :activo)");
             $stmt->execute([
                 'nombre' => $nombre,
                 'duracion' => $duracion,
                 'precio' => $precio,
+                'descripcion' => $descripcion,
                 'activo' => $activo
             ]);
             $_SESSION['success_msg'] = "Servicio creado exitosamente.";
         } 
         elseif ($accion === 'editar') {
             if ($id) {
-                $stmt = $pdo->prepare("UPDATE servicios SET nombre = :nombre, duracion_minutos = :duracion, precio = :precio, activo = :activo WHERE id = :id");
+                $stmt = $pdo->prepare("UPDATE servicios SET nombre = :nombre, duracion_minutos = :duracion, precio = :precio, descripcion = :descripcion, activo = :activo WHERE id = :id");
                 $stmt->execute([
                     'nombre' => $nombre,
                     'duracion' => $duracion,
                     'precio' => $precio,
+                    'descripcion' => $descripcion,
                     'activo' => $activo,
                     'id' => $id
                 ]);

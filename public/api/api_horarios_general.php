@@ -52,7 +52,7 @@ try {
         $disponibles[] = [
             'id' => $h['id'],
             'hora' => $timeObj->format('H:i'),
-            'hora_display' => $timeObj->format('h:i A'),
+            'hora_display' => $timeObj->format('g:i a'),
             'turno' => $h['turno'],
             'ocupado' => $is_occupied
         ];
