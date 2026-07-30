@@ -580,26 +580,41 @@
     <div class="marquee-container flex overflow-hidden whitespace-nowrap relative select-none gap-16 sm:gap-24">
         <?php
         $convenios = [
-            ["src" => "assets/img/magno.png", "alt" => "Magno Barber Products", "class" => "h-16 sm:h-20"],
-            ["src" => "assets/img/strike.jpg", "alt" => "Strike Barber Products", "class" => "h-16 sm:h-20"],
-            ["src" => "assets/img/club_deportivo.png", "alt" => "Club Deportivo Alerce Histórico", "class" => "h-24 sm:h-28 scale-110"],
+            ["type" => "image", "src" => "assets/img/magno.png", "alt" => "Magno Barber Products", "class" => "h-16 sm:h-20"],
+            ["type" => "image", "src" => "assets/img/strike.jpg", "alt" => "Strike Barber Products", "class" => "h-16 sm:h-20"],
+            ["type" => "image", "src" => "assets/img/club_deportivo.png", "alt" => "Club Deportivo Alerce Histórico", "class" => "h-24 sm:h-28 scale-110"],
+            ["type" => "image", "src" => "assets/img/trabunco.png", "alt" => "Trabunco", "class" => "h-20 sm:h-24"],
+            ["type" => "image", "src" => "assets/img/biomotor.png", "alt" => "Biomotor", "class" => "h-20 sm:h-24"],
+            ["type" => "image", "src" => "assets/img/Lab.png", "alt" => "Lab", "class" => "h-20 sm:h-24"],
         ];
         ?>
         <div
             class="marquee-content flex shrink-0 min-w-full items-center justify-around gap-16 sm:gap-24 animate-marquee">
             <?php for ($i = 0; $i < 3; $i++):
-                foreach ($convenios as $c): ?>
-                    <img src="<?= $c['src'] ?>" alt="<?= $c['alt'] ?>"
-                        class="<?= $c['class'] ?> w-auto object-contain transition-all hover:scale-115">
-                    <?php endforeach; endfor; ?>
+                foreach ($convenios as $c): 
+                    if (isset($c['type']) && $c['type'] === 'text'): ?>
+                        <a href="<?= $c['link'] ?>" target="_blank" class="text-white text-xl sm:text-2xl font-bold tracking-widest hover:text-primary transition-colors hover:scale-110 inline-block">
+                            <?= $c['text'] ?>
+                        </a>
+                    <?php else: ?>
+                        <img src="<?= $c['src'] ?>" alt="<?= $c['alt'] ?>"
+                            class="<?= $c['class'] ?> w-auto object-contain transition-all hover:scale-115">
+                    <?php endif; 
+                endforeach; endfor; ?>
         </div>
         <div class="marquee-content flex shrink-0 min-w-full items-center justify-around gap-16 sm:gap-24 animate-marquee"
             aria-hidden="true">
             <?php for ($i = 0; $i < 3; $i++):
-                foreach ($convenios as $c): ?>
-                    <img src="<?= $c['src'] ?>" alt="<?= $c['alt'] ?>"
-                        class="<?= $c['class'] ?> w-auto object-contain transition-all hover:scale-115">
-                    <?php endforeach; endfor; ?>
+                foreach ($convenios as $c): 
+                    if (isset($c['type']) && $c['type'] === 'text'): ?>
+                        <a href="<?= $c['link'] ?>" target="_blank" class="text-white text-xl sm:text-2xl font-bold tracking-widest hover:text-primary transition-colors hover:scale-110 inline-block" tabindex="-1">
+                            <?= $c['text'] ?>
+                        </a>
+                    <?php else: ?>
+                        <img src="<?= $c['src'] ?>" alt="<?= $c['alt'] ?>"
+                            class="<?= $c['class'] ?> w-auto object-contain transition-all hover:scale-115">
+                    <?php endif; 
+                endforeach; endfor; ?>
         </div>
     </div>
 </section>

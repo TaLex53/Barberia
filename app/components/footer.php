@@ -84,7 +84,7 @@
 
     <div
         class="max-w-7xl mx-auto px-6 border-t border-white/5 pt-8 flex items-center justify-center text-xs text-slate-500 text-center">
-        <p>© 2026 Cut Level Barbería. Todos los derechos reservados. desarrollado por <a href="https://www.instagram.com/000lexx/" target="_blank" class="hover:text-white transition-colors">000Lexx</a></p>
+        <p>© 2026 Cut Level Barbería. Todos los derechos reservados.</p>
     </div>
 </footer>
 
@@ -113,11 +113,12 @@
     </svg>
 </a>
 <!-- Cookie Consent by TermsFeed https://www.TermsFeed.com -->
-<script type="text/javascript" src="https://www.termsfeed.com/public/cookie-consent/4.1.0/cookie-consent.js" charset="UTF-8"></script>
+<script type="text/javascript" src="https://www.termsfeed.com/public/cookie-consent/4.1.0/cookie-consent.js"
+    charset="UTF-8"></script>
 <script type="text/javascript" charset="UTF-8">
-document.addEventListener('DOMContentLoaded', function () {
-cookieconsent.run({"notice_banner_type":"simple","consent_type":"express","palette":"dark","language":"es","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"Cut Level Barbería"});
-});
+    document.addEventListener('DOMContentLoaded', function () {
+        cookieconsent.run({ "notice_banner_type": "simple", "consent_type": "express", "palette": "dark", "language": "es", "page_load_consent_levels": ["strictly-necessary"], "notice_banner_reject_button_hide": false, "preferences_center_close_button_hide": false, "page_refresh_confirmation_buttons": false, "website_name": "Cut Level Barbería" });
+    });
 </script>
 <!-- End Cookie Consent by TermsFeed https://www.TermsFeed.com -->
 
