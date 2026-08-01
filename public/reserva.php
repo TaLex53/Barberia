@@ -299,42 +299,41 @@ try {
                                     class="text-gray-300 hover:text-white font-medium transition-colors">¡Contáctanos
                                     por Whatsapp!</a>
                             </div>
-                            <div class="flex flex-col text-sm text-gray-400">
+                            <div class="flex flex-col text-sm text-gray-400 relative group w-max cursor-pointer">
                                 <div class="flex items-center gap-3">
                                     <span class="material-symbols-outlined text-gray-500 text-[18px]">schedule</span>
-                                    <span class="underline text-gray-400 hover:text-white cursor-pointer"
-                                        onclick="document.getElementById('horarios-list').classList.toggle('hidden')">Ver
+                                    <span class="underline text-gray-400 group-hover:text-white transition-colors">Ver
                                         horario de atención</span>
                                 </div>
                                 <div id="horarios-list"
-                                    class="hidden mt-3 w-full bg-[#080808] rounded-xl border border-white/10 p-4">
-                                    <ul class="space-y-3 text-[12px] font-bold text-white">
-                                        <li class="flex justify-between border-b border-white/10 pb-2">
-                                            <span>Lunes</span> <span class="text-gray-400 font-medium">08:00 -
+                                    class="opacity-0 invisible group-hover:opacity-100 group-hover:visible absolute top-full left-0 z-50 mt-3 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 p-4 transition-all duration-300">
+                                    <ul class="space-y-3 text-[12px] font-bold text-gray-800">
+                                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                                            <span>Lunes</span> <span class="text-gray-500 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/10 pb-2">
-                                            <span>Martes</span> <span class="text-gray-400 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                                            <span>Martes</span> <span class="text-gray-500 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/10 pb-2">
-                                            <span>Miércoles</span> <span class="text-gray-400 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                                            <span>Miércoles</span> <span class="text-gray-500 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/10 pb-2">
-                                            <span>Jueves</span> <span class="text-gray-400 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                                            <span>Jueves</span> <span class="text-gray-500 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/10 pb-2">
-                                            <span>Viernes</span> <span class="text-gray-400 font-medium">08:00 -
+                                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                                            <span>Viernes</span> <span class="text-gray-500 font-medium">08:00 -
                                                 20:00</span>
                                         </li>
-                                        <li class="flex justify-between border-b border-white/10 pb-2">
-                                            <span>Sábado</span> <span class="text-gray-400 font-medium">11:00 -
+                                        <li class="flex justify-between border-b border-gray-100 pb-2">
+                                            <span>Sábado</span> <span class="text-gray-500 font-medium">11:00 -
                                                 20:00</span>
                                         </li>
                                         <li class="flex justify-between">
-                                            <span>Domingo</span> <span class="text-gray-400 font-medium">11:00 -
+                                            <span>Domingo</span> <span class="text-gray-500 font-medium">11:00 -
                                                 20:00</span>
                                         </li>
                                     </ul>
@@ -494,7 +493,44 @@ try {
         </div>
 
         <!-- Modal Body: 2 Columns -->
-        <div class="flex-grow flex flex-col lg:flex-row max-w-[1400px] w-full mx-auto gap-6 p-4 sm:p-8 overflow-hidden">
+        <div class="flex-grow flex flex-col lg:flex-row max-w-[1400px] w-full mx-auto gap-4 lg:gap-6 p-4 sm:p-8 overflow-hidden">
+
+            <!-- Mobile Summary Top Card (Expandable) -->
+            <div id="mobile-summary-container" class="hidden lg:hidden bg-[#111] border border-white/10 rounded-xl overflow-hidden shadow-sm shrink-0">
+                <!-- Header / Collapsed state -->
+                <div class="p-4 flex items-start justify-between cursor-pointer select-none" onclick="document.getElementById('mobile-summary-details').classList.toggle('hidden'); document.getElementById('mobile-summary-chevron').classList.toggle('rotate-180');">
+                    <div>
+                        <h4 id="mobile-sum-service" class="font-bold text-white text-[15px] mb-1.5 leading-tight">Selecciona un servicio</h4>
+                        <div class="flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-gray-500 text-[18px]">payments</span>
+                            <span id="mobile-sum-price" class="text-white font-bold text-sm">$0</span>
+                        </div>
+                    </div>
+                    <span id="mobile-summary-chevron" class="material-symbols-outlined text-gray-400 transition-transform duration-300 rotate-180">expand_more</span>
+                </div>
+                
+                <!-- Expanded Details -->
+                <div id="mobile-summary-details" class="px-4 pb-4 bg-[#0a0a0a] border-t border-white/10 pt-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-gray-500 text-[18px]">calendar_today</span>
+                            <span id="mobile-sum-date" class="text-sm text-gray-300">-</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-gray-500 text-[18px]">schedule</span>
+                            <span id="mobile-sum-time" class="text-sm text-gray-300">-</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-gray-500 text-[18px]">person</span>
+                            <span id="mobile-sum-barber" class="text-sm text-gray-300">-</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-gray-500 text-[18px]">storefront</span>
+                            <span class="text-sm text-gray-300">Cut Level Studio</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Left Column: Steps -->
             <div
@@ -640,24 +676,24 @@ try {
                             onsubmit="event.preventDefault(); submitBooking();">
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-300 mb-1">Nombre *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Nombre <span class="text-red-500">*</span></label>
                                     <input type="text" id="client-name" required
                                         class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-300 mb-1">Apellido *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Apellido <span class="text-red-500">*</span></label>
                                     <input type="text" id="client-lastname" required
                                         class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
                                 </div>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-300 mb-1">Email *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Email <span class="text-red-500">*</span></label>
                                     <input type="email" id="client-email" required
                                         class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-300 mb-1">Teléfono *</label>
+                                    <label class="block text-xs font-bold text-gray-300 mb-1">Teléfono <span class="text-red-500">*</span></label>
                                     <input type="tel" id="client-phone" required placeholder="+56 9 1234 5678"
                                         oninput="formatChileanPhone(this)"
                                         class="w-full bg-[#111] border border-white/10 rounded-lg px-4 py-2.5 text-white text-sm focus:ring-1 focus:ring-white focus:border-white transition-all outline-none">
@@ -671,15 +707,15 @@ try {
                             </div>
 
                             <div class="mt-4 flex flex-col gap-3 border-t border-white/10 pt-4">
-                                <label class="flex items-start gap-3 cursor-pointer group">
-                                    <div class="relative flex items-center justify-center mt-0.5 shrink-0">
+                                <label class="flex items-start gap-3 cursor-pointer group relative">
+                                    <div class="relative flex items-center justify-center mt-0.5 shrink-0 w-5 h-5">
                                         <input type="checkbox" required id="client-terms"
-                                            class="peer appearance-none w-5 h-5 border border-white/20 rounded bg-[#111] checked:bg-white checked:border-white transition-all cursor-pointer">
-                                        <span
-                                            class="material-symbols-outlined absolute text-[#111] text-[14px] opacity-0 peer-checked:opacity-100 pointer-events-none font-black">check</span>
+                                            class="peer absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20 m-0 p-0">
+                                        <div class="absolute inset-0 border-2 border-white/20 rounded bg-[#111] peer-checked:bg-white peer-checked:border-white transition-all pointer-events-none z-0"></div>
+                                        <span class="material-symbols-outlined absolute text-black text-[16px] font-black opacity-0 peer-checked:opacity-100 transition-opacity pointer-events-none z-10 flex items-center justify-center w-full h-full text-center">check</span>
                                     </div>
                                     <span class="text-xs text-gray-400 leading-relaxed">
-                                        Acepto las Políticas de reserva y privacidad de Cut Level Studio y recibir e-mails, mensajes de WhatsApp y otras comunicaciones enviados por medio de Cut Level Studio.
+                                        Acepto las Políticas de Reserva y Privacidad de Cut Level Studio, y autorizo recibir notificaciones, recordatorios por WhatsApp y otras comunicaciones referentes a mi cita.
                                     </span>
                                 </label>
                                 <p class="text-[10px] text-gray-500 mt-1 pl-8">
@@ -736,27 +772,27 @@ try {
             <div class="max-w-[1400px] w-full mx-auto px-4 sm:px-8 py-4 flex justify-between items-center">
                 
                 <!-- Left side -->
-                <div class="flex items-center overflow-hidden pr-2">
+                <div class="flex items-center pr-2 overflow-hidden w-full sm:w-auto" id="footer-left-side">
                     <button id="prev-btn" onclick="prevStep()" style="display: none;"
-                        class="hidden sm:block px-5 py-2.5 rounded-lg border border-white/20 text-gray-300 text-sm font-bold hover:bg-white/10 transition-colors">
+                        class="hidden sm:block px-5 py-2.5 rounded-lg border border-white/20 text-gray-300 text-sm font-bold hover:bg-white/10 transition-colors shrink-0 mr-3">
                         Atrás
                     </button>
-                    <!-- Mobile Summary -->
-                    <div id="mobile-footer-summary" class="flex flex-col md:hidden text-left">
-                        <span id="mobile-sum-service" class="text-gray-300 font-bold text-sm truncate">Selecciona un servicio</span>
-                        <span id="mobile-sum-price" class="text-white font-bold text-sm truncate">$0</span>
-                        <span id="mobile-sum-datetime" class="text-gray-400 text-xs truncate">-</span>
+                    <!-- Mobile Summary Footer -->
+                    <div id="mobile-footer-summary" class="flex flex-col sm:hidden text-left truncate w-full pr-2">
+                        <span id="mobile-footer-service" class="text-gray-300 font-bold text-[13px] truncate">Selecciona un servicio</span>
+                        <span id="mobile-footer-price" class="text-white font-bold text-[13px] truncate">$0</span>
+                        <span id="mobile-footer-datetime" class="text-gray-400 text-[11px] truncate">-</span>
                     </div>
                 </div>
 
                 <!-- Right side -->
-                <div class="flex gap-3 items-center shrink-0">
+                <div id="footer-right-side" class="flex gap-3 items-center shrink-0 w-auto sm:w-auto justify-end">
                     <button id="next-btn" onclick="nextStep()" disabled
-                        class="px-6 py-2.5 rounded-lg bg-[#1f2937] text-gray-500 cursor-not-allowed text-sm font-bold transition-colors hidden shadow-md">
+                        class="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-[#1f2937] text-gray-500 cursor-not-allowed text-sm font-bold transition-colors hidden shadow-md">
                         Siguiente
                     </button>
                     <button id="submit-btn" onclick="submitBooking()"
-                        class="px-6 py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors hidden shadow-md">
+                        class="w-full sm:w-auto px-6 py-3 sm:py-2.5 rounded-lg bg-white text-black text-sm font-bold hover:bg-gray-200 transition-colors hidden shadow-md flex justify-center">
                         Confirmar Cita
                     </button>
                 </div>
@@ -932,13 +968,21 @@ try {
         function updateSummary() {
             const mService = document.getElementById('mobile-sum-service');
             const mPrice = document.getElementById('mobile-sum-price');
-            const mDatetime = document.getElementById('mobile-sum-datetime');
+            const mDate = document.getElementById('mobile-sum-date');
+            const mTime = document.getElementById('mobile-sum-time');
+            const mBarber = document.getElementById('mobile-sum-barber');
+            
+            const mfService = document.getElementById('mobile-footer-service');
+            const mfPrice = document.getElementById('mobile-footer-price');
+            const mfDatetime = document.getElementById('mobile-footer-datetime');
 
             if (selectedServices.length === 0) {
                 sumService.textContent = 'Selecciona un servicio';
                 sumPrice.textContent = '$0';
                 if(mService) mService.textContent = 'Selecciona un servicio';
                 if(mPrice) mPrice.textContent = '$0';
+                if(mfService) mfService.textContent = 'Selecciona un servicio';
+                if(mfPrice) mfPrice.textContent = '$0';
             } else {
                 let names = selectedServices.map(s => s.name).join(' + ');
                 let total = selectedServices.reduce((acc, s) => acc + s.price, 0);
@@ -950,15 +994,26 @@ try {
                 
                 if(mService) mService.textContent = names;
                 if(mPrice) mPrice.textContent = '$' + new Intl.NumberFormat('es-CL').format(total);
+                
+                if (mTime) {
+                    let timeRange = selectedTimeDisplay ? formatTimeRange(selectedTimeDisplay, dur) : '-';
+                    mTime.textContent = timeRange;
+                }
+                
+                if(mfService) mfService.textContent = names;
+                if(mfPrice) mfPrice.textContent = '$' + new Intl.NumberFormat('es-CL').format(total);
             }
             sumDate.textContent = selectedDateDisplay || '-';
             sumBarber.textContent = selectedBarberName || '-';
 
-            if (mDatetime) {
+            if (mDate) mDate.textContent = selectedDateDisplay || '-';
+            if (mBarber) mBarber.textContent = selectedBarberName || '-';
+            
+            if (mfDatetime) {
                 let dur = selectedServices.reduce((acc, s) => acc + s.duration, 0);
                 let timeRange = selectedTimeDisplay ? formatTimeRange(selectedTimeDisplay, dur) : '';
                 let dtString = (selectedDateDisplay || '') + (timeRange ? ' - ' + timeRange : '');
-                mDatetime.textContent = dtString || '-';
+                mfDatetime.textContent = dtString || '-';
             }
         }
 
@@ -1051,6 +1106,7 @@ try {
             const prevBtn = document.getElementById('prev-btn');
             const nextBtn = document.getElementById('next-btn');
             const submitBtn = document.getElementById('submit-btn');
+            const stepTitle = document.getElementById('step-title');
 
             if (step > 1) {
                 if (prevBtn) prevBtn.style.display = '';
@@ -1059,17 +1115,52 @@ try {
             }
 
             if (step === 1) {
+                if (stepTitle) stepTitle.textContent = 'Selecciona fecha y hora de tu servicio';
                 initDatePicker();
                 setNextBtnEnabled(!!selectedTimeId);
                 nextBtn.classList.remove('hidden');
                 submitBtn.classList.add('hidden');
             } else if (step === 2) {
+                if (stepTitle) stepTitle.textContent = 'Selecciona el/los profesionales para tus servicios';
                 setNextBtnEnabled(!!selectedBarberId);
                 nextBtn.classList.remove('hidden');
                 submitBtn.classList.add('hidden');
             } else if (step === 3) {
+                if (stepTitle) stepTitle.textContent = 'Datos de contacto';
                 nextBtn.classList.add('hidden');
                 submitBtn.classList.remove('hidden');
+            }
+
+            const mobileSumContainer = document.getElementById('mobile-summary-container');
+            const mFooterSum = document.getElementById('mobile-footer-summary');
+            const footerRightSide = document.getElementById('footer-right-side');
+
+            if (step === 3) {
+                if (mobileSumContainer) {
+                    mobileSumContainer.classList.remove('hidden');
+                    mobileSumContainer.classList.add('block');
+                }
+                if (mFooterSum) {
+                    mFooterSum.classList.add('hidden');
+                    mFooterSum.classList.remove('flex');
+                }
+                if (footerRightSide) {
+                    footerRightSide.classList.add('w-full');
+                    footerRightSide.classList.remove('w-auto');
+                }
+            } else {
+                if (mobileSumContainer) {
+                    mobileSumContainer.classList.add('hidden');
+                    mobileSumContainer.classList.remove('block');
+                }
+                if (mFooterSum) {
+                    mFooterSum.classList.remove('hidden');
+                    mFooterSum.classList.add('flex');
+                }
+                if (footerRightSide) {
+                    footerRightSide.classList.add('w-auto');
+                    footerRightSide.classList.remove('w-full');
+                }
             }
 
             updateIndicators();
