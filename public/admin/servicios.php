@@ -66,7 +66,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 <span class="material-symbols-outlined text-[18px]">design_services</span>
                 <span class="sidebar-text">Servicios</span>
             </a>
-            <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold text-xs uppercase tracking-[0.1em] transition-all">
+            <a href="reportes" class="nav-item flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold text-xs uppercase tracking-[0.1em] transition-all">
                 <span class="material-symbols-outlined text-[18px]">bar_chart</span>
                 <span class="sidebar-text">Reportes</span>
             </a>
@@ -147,6 +147,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                         <thead>
                             <tr>
                                 <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Servicio</th>
+                                <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Categoría</th>
                                 <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Duración</th>
                                 <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Precio</th>
                                 <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Estado</th>
@@ -172,6 +173,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                 data-duracion="<?php echo $servicio['duracion_minutos']; ?>"
                                 data-precio="<?php echo $servicio['precio']; ?>"
                                 data-descripcion="<?php echo htmlspecialchars($servicio['descripcion'] ?? ''); ?>"
+                                data-categoria="<?php echo htmlspecialchars($servicio['categoria'] ?? 'Servicios Esenciales'); ?>"
                                 data-activo="<?php echo $servicio['activo']; ?>">
                                 
                                 <td class="py-4 px-4">
@@ -184,6 +186,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                         </div>
                                     </div>
                                 </td>
+                                <td class="py-4 px-4 text-slate-400 font-medium text-xs"><?php echo htmlspecialchars($servicio['categoria'] ?? 'Servicios Esenciales'); ?></td>
                                 <td class="py-4 px-4 text-slate-400 font-medium"><?php echo $servicio['duracion_minutos']; ?> min</td>
                                 <td class="py-4 px-4 text-white font-bold tracking-wider">$<?php echo number_format($servicio['precio'], 0, ',', '.'); ?></td>
                                 <td class="py-4 px-4">
@@ -193,16 +196,16 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                     </span>
                                 </td>
                                 <td class="py-4 px-4 text-right">
-                                    <button onclick='openModal("editar", {"id": "<?php echo $servicio["id"]; ?>", "nombre": "<?php echo addslashes($servicio["nombre"]); ?>", "duracion": "<?php echo $servicio["duracion_minutos"]; ?>", "precio": "<?php echo $servicio["precio"]; ?>", "descripcion": "<?php echo addslashes(str_replace(array("\r", "\n"), array("", "\\n"), $servicio["descripcion"] ?? "")); ?>", "activo": "<?php echo $servicio["activo"]; ?>"})' class="text-slate-500 hover:text-white transition-colors p-1"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                    <button onclick='openModal("editar", {"id": "<?php echo $servicio["id"]; ?>", "nombre": "<?php echo addslashes($servicio["nombre"]); ?>", "categoria": "<?php echo addslashes($servicio["categoria"] ?? "Servicios Esenciales"); ?>", "duracion": "<?php echo $servicio["duracion_minutos"]; ?>", "precio": "<?php echo $servicio["precio"]; ?>", "descripcion": "<?php echo addslashes(str_replace(array("\r", "\n"), array("", "\\n"), $servicio["descripcion"] ?? "")); ?>", "activo": "<?php echo $servicio["activo"]; ?>"})' class="text-slate-500 hover:text-white transition-colors p-1"><span class="material-symbols-outlined text-[18px]">edit</span></button>
                                 </td>
                             </tr>
                             <?php
                                     }
                                 } else {
-                                    echo '<tr><td colspan="5" class="py-8 text-center text-slate-500">No hay servicios registrados.</td></tr>';
+                                    echo '<tr><td colspan="6" class="py-8 text-center text-slate-500">No hay servicios registrados.</td></tr>';
                                 }
                             } catch (\PDOException $e) {
-                                echo '<tr><td colspan="5" class="py-8 text-center text-red-500">Error al cargar datos.</td></tr>';
+                                echo '<tr><td colspan="6" class="py-8 text-center text-red-500">Error al cargar datos.</td></tr>';
                             }
                             ?>
                         </tbody>
@@ -234,6 +237,16 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 <div>
                     <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">Descripción (Opcional)</label>
                     <textarea name="descripcion" id="formDescripcion" rows="2" class="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 transition-colors placeholder:text-gray-600" placeholder="Ej: Servicio de corte premium con masaje capilar..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 mb-2">Categoría</label>
+                    <select name="categoria" id="formCategoria" class="w-full bg-black border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-white/30 transition-colors appearance-none">
+                        <option value="Servicios Esenciales">Servicios Esenciales</option>
+                        <option value="Más reservados">Más reservados</option>
+                        <option value="Transformación & Estilo">Transformación & Estilo</option>
+                        <option value="Niños/Estudiantes">Niños/Estudiantes</option>
+                    </select>
                 </div>
                 
                 <div class="grid grid-cols-2 gap-4">
@@ -328,6 +341,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
         const formAccion = document.getElementById('formAccion');
         const formId = document.getElementById('formId');
         const formNombre = document.getElementById('formNombre');
+        const formCategoria = document.getElementById('formCategoria');
         const formDuracion = document.getElementById('formDuracion');
         const formPrecio = document.getElementById('formPrecio');
         const formDescripcion = document.getElementById('formDescripcion');
@@ -340,6 +354,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 modalTitle.textContent = 'Editar Servicio';
                 formId.value = data.id;
                 formNombre.value = data.nombre;
+                formCategoria.value = data.categoria || 'Servicios Esenciales';
                 formDuracion.value = data.duracion;
                 formPrecio.value = data.precio;
                 formDescripcion.value = data.descripcion || '';
@@ -348,6 +363,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 modalTitle.textContent = 'Nuevo Servicio';
                 formId.value = '';
                 formNombre.value = '';
+                formCategoria.value = 'Servicios Esenciales';
                 formDuracion.value = '45';
                 formPrecio.value = '10000';
                 formDescripcion.value = '';
@@ -417,6 +433,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 currentRowData = {
                     id: row.dataset.id,
                     nombre: row.dataset.nombre,
+                    categoria: row.dataset.categoria,
                     duracion: row.dataset.duracion,
                     precio: row.dataset.precio,
                     descripcion: row.dataset.descripcion,

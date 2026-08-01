@@ -72,7 +72,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                 <span class="material-symbols-outlined text-[18px]">design_services</span>
                 <span class="sidebar-text">Servicios</span>
             </a>
-            <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold text-xs uppercase tracking-[0.1em] transition-all">
+            <a href="reportes" class="nav-item flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold text-xs uppercase tracking-[0.1em] transition-all">
                 <span class="material-symbols-outlined text-[18px]">bar_chart</span>
                 <span class="sidebar-text">Reportes</span>
             </a>

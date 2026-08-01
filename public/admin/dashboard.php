@@ -83,7 +83,7 @@ try {
                 <span class="material-symbols-outlined text-[18px]">design_services</span>
                 <span class="sidebar-text">Servicios</span>
             </a>
-            <a href="#" class="nav-item flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold text-xs uppercase tracking-[0.1em] transition-all">
+            <a href="reportes" class="nav-item flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl font-semibold text-xs uppercase tracking-[0.1em] transition-all">
                 <span class="material-symbols-outlined text-[18px]">bar_chart</span>
                 <span class="sidebar-text">Reportes</span>
             </a>
@@ -201,11 +201,9 @@ try {
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 
                 <!-- Main Chart -->
-                <div class="lg:col-span-2 bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 shadow-xl h-[400px] flex flex-col">
-                    <h2 class="text-xs font-bold uppercase tracking-[0.1em] text-white mb-6">Cumplimiento de Citas (%)</h2>
-                    <div class="flex-1 border border-white/5 border-dashed rounded-xl flex items-center justify-center">
-                        <span class="text-slate-600 text-[10px] font-bold uppercase tracking-widest">Gráfico Principal (Vacío)</span>
-                    </div>
+                <div class="lg:col-span-2 bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 shadow-xl h-[400px] flex flex-col overflow-hidden">
+                    <h2 class="text-xs font-bold uppercase tracking-[0.1em] text-white mb-6 flex-shrink-0">Cumplimiento de Citas (%)</h2>
+                    <div id="mainChart" class="flex-1 w-full min-h-[0]"></div>
                 </div>
 
                 <!-- Secondary Panel / Filters -->
@@ -270,6 +268,7 @@ try {
         </div>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
@@ -329,6 +328,97 @@ try {
             animateValue(kpiCanceladas, 0, parseInt(kpiCanceladas.innerText) || 0, 500);
             animateValue(kpiCompletadas, 0, parseInt(kpiCompletadas.innerText) || 0, 500);
         });
+
+        // Chart Data Calculation
+        const totalCitas = <?= $totalCitas ?: 0 ?>;
+        const citasPendientes = <?= $citasPendientes ?: 0 ?>;
+        const citasCanceladas = <?= $citasCanceladas ?: 0 ?>;
+        const citasCompletadas = <?= $citasCompletadas ?: 0 ?>;
+
+        const pCompletadas = totalCitas ? ((citasCompletadas / totalCitas) * 100).toFixed(1) : 0;
+        const pPendientes = totalCitas ? ((citasPendientes / totalCitas) * 100).toFixed(1) : 0;
+        const pCanceladas = totalCitas ? ((citasCanceladas / totalCitas) * 100).toFixed(1) : 0;
+
+        const chartOptions = {
+            series: [{
+                name: 'Porcentaje',
+                data: [pCompletadas, pPendientes, pCanceladas]
+            }],
+            chart: {
+                type: 'bar',
+                height: '100%',
+                parentHeightOffset: 0,
+                toolbar: { show: false },
+                background: 'transparent',
+                fontFamily: 'Montserrat, sans-serif'
+            },
+            colors: ['#10b981', '#f59e0b', '#ef4444'], // emerald-500, amber-500, red-500
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    horizontal: false,
+                    columnWidth: '40%',
+                    distributed: true
+                }
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function (val) {
+                    return val + "%";
+                },
+                style: {
+                    fontSize: '12px',
+                    fontFamily: 'Montserrat, sans-serif',
+                    fontWeight: 'bold',
+                    colors: ['#fff']
+                }
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Completadas', 'Pendientes', 'Canceladas'],
+                labels: {
+                    style: { 
+                        colors: ['#10b981', '#f59e0b', '#ef4444'], 
+                        fontSize: '10px', 
+                        fontWeight: 700, 
+                        cssClass: 'uppercase tracking-widest' 
+                    }
+                },
+                axisBorder: { show: false },
+                axisTicks: { show: false }
+            },
+            yaxis: {
+                max: 100,
+                labels: {
+                    style: { colors: '#64748b', fontSize: '10px' },
+                    formatter: (value) => { return value + "%" }
+                }
+            },
+            grid: {
+                borderColor: 'rgba(255,255,255,0.05)',
+                strokeDashArray: 4,
+                yaxis: { lines: { show: true } },
+                padding: {
+                    bottom: 15
+                }
+            },
+            legend: { show: false },
+            tooltip: {
+                theme: 'dark',
+                y: {
+                    formatter: function (val) {
+                        return val + "%"
+                    }
+                }
+            }
+        };
+
+        const chart = new ApexCharts(document.querySelector("#mainChart"), chartOptions);
+        chart.render();
     </script>
 </body>
 </html>

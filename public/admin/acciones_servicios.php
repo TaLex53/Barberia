@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $accion = $_POST['accion'] ?? '';
     $id = $_POST['id'] ?? null;
     $nombre = trim($_POST['nombre'] ?? '');
+    $categoria = trim($_POST['categoria'] ?? 'Servicios Esenciales');
     $duracion = (int)($_POST['duracion_minutos'] ?? 45);
     $precio = (float)($_POST['precio'] ?? 0);
     $descripcion = trim($_POST['descripcion'] ?? '');
@@ -18,9 +19,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         if ($accion === 'crear') {
-            $stmt = $pdo->prepare("INSERT INTO servicios (nombre, duracion_minutos, precio, descripcion, activo) VALUES (:nombre, :duracion, :precio, :descripcion, :activo)");
+            $stmt = $pdo->prepare("INSERT INTO servicios (nombre, categoria, duracion_minutos, precio, descripcion, activo) VALUES (:nombre, :categoria, :duracion, :precio, :descripcion, :activo)");
             $stmt->execute([
                 'nombre' => $nombre,
+                'categoria' => $categoria,
                 'duracion' => $duracion,
                 'precio' => $precio,
                 'descripcion' => $descripcion,
@@ -30,9 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } 
         elseif ($accion === 'editar') {
             if ($id) {
-                $stmt = $pdo->prepare("UPDATE servicios SET nombre = :nombre, duracion_minutos = :duracion, precio = :precio, descripcion = :descripcion, activo = :activo WHERE id = :id");
+                $stmt = $pdo->prepare("UPDATE servicios SET nombre = :nombre, categoria = :categoria, duracion_minutos = :duracion, precio = :precio, descripcion = :descripcion, activo = :activo WHERE id = :id");
                 $stmt->execute([
                     'nombre' => $nombre,
+                    'categoria' => $categoria,
                     'duracion' => $duracion,
                     'precio' => $precio,
                     'descripcion' => $descripcion,

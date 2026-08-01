@@ -25,14 +25,24 @@ try {
     $stmtS = $pdo->query("SELECT * FROM servicios WHERE activo = 1 ORDER BY categoria, nombre");
     $servicios_flat = $stmtS->fetchAll(PDO::FETCH_ASSOC);
 
-    $servicios_grouped = [];
+    // Inicializamos con el orden deseado
+    $servicios_grouped = [
+        'Más reservados' => [],
+        'Servicios Esenciales' => [],
+        'Transformación & Estilo' => [],
+        'Niños/Estudiantes' => []
+    ];
+    
     foreach ($servicios_flat as $s) {
-        $cat = !empty($s['categoria']) ? $s['categoria'] : 'Servicios Generales';
+        $cat = !empty($s['categoria']) ? $s['categoria'] : 'Servicios Esenciales';
         if (!isset($servicios_grouped[$cat])) {
             $servicios_grouped[$cat] = [];
         }
         $servicios_grouped[$cat][] = $s;
     }
+    
+    // Opcional: Eliminar categorías vacías si no queremos que se vean
+    // $servicios_grouped = array_filter($servicios_grouped, function($cat) { return count($cat) > 0; });
 } catch (PDOException $e) {
     $servicios_grouped = [];
 }
@@ -391,15 +401,15 @@ try {
                     <!-- Category List -->
                     <ul class="flex flex-col">
                         <li>
-                            <a href="#cat-all"
-                                class="block px-4 py-3 bg-white/10 rounded-xl text-sm font-bold text-white mb-2 transition-colors">
+                            <a href="#cat-all" onclick="setActiveCategory(this); openAllCategories()"
+                                class="cat-link block px-4 py-3 bg-white/10 rounded-xl text-sm font-bold text-white mb-2 transition-colors">
                                 Todos
                             </a>
                         </li>
                         <?php foreach (array_keys($servicios_grouped) as $index => $cat): ?>
                             <li class="border-b border-white/5 last:border-0">
-                                <a href="#cat-<?php echo $index; ?>" onclick="openCategory(<?php echo $index; ?>)"
-                                    class="block px-4 py-3.5 text-sm font-medium text-gray-400 hover:text-white transition-colors">
+                                <a href="#cat-<?php echo $index; ?>" onclick="openCategory(<?php echo $index; ?>); setActiveCategory(this)"
+                                    class="cat-link block px-4 py-3.5 text-sm font-medium text-gray-400 hover:text-white transition-colors">
                                     <?php echo htmlspecialchars($cat); ?>
                                 </a>
                             </li>
@@ -819,6 +829,24 @@ try {
     </div>
 
     <script>
+        function setActiveCategory(element) {
+            const links = document.querySelectorAll('.cat-link');
+            links.forEach(link => {
+                link.className = 'cat-link block px-4 py-3.5 text-sm font-medium text-gray-400 hover:text-white transition-colors';
+            });
+            element.className = 'cat-link block px-4 py-3 bg-white/10 rounded-xl text-sm font-bold text-white mb-2 transition-colors';
+        }
+
+        function openAllCategories() {
+            let catIndex = 0;
+            while (true) {
+                const grid = document.getElementById('grid-cat-' + catIndex);
+                if (!grid) break;
+                openCategory(catIndex);
+                catIndex++;
+            }
+        }
+
         function toggleCategory(index) {
             const grid = document.getElementById('grid-cat-' + index);
             const icon = document.getElementById('icon-cat-' + index);
