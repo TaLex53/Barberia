@@ -55,7 +55,7 @@ try {
 <body class="bg-[#050505] text-slate-100 h-screen overflow-hidden flex selection:bg-white selection:text-black">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="w-64 bg-[#0a0a0a] border-r border-white/5 flex flex-col flex-shrink-0 relative z-20 transition-all duration-300">
+    <aside id="sidebar" class="hidden md:flex w-64 bg-[#0a0a0a] border-r border-white/5 flex-col flex-shrink-0 relative z-20 transition-all duration-300">
         <!-- Logo -->
         <div class="h-20 flex items-center justify-center border-b border-white/5 px-4 overflow-hidden">
             <a href="dashboard" class="flex items-center justify-center w-full">
@@ -111,17 +111,21 @@ try {
         <!-- Topbar -->
         <header class="h-20 bg-[#0a0a0a] border-b border-white/5 flex items-center justify-between px-8 flex-shrink-0 relative z-10">
             <div class="flex items-center gap-4">
-                <button id="sidebarToggle" class="text-slate-400 hover:text-white transition-colors">
+                <button id="sidebarToggle" class="hidden md:block text-slate-400 hover:text-white transition-colors">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
                 <a href="dashboard" class="block">
                     <h1 class="text-2xl font-heading uppercase tracking-widest text-white mt-1 hover:text-slate-300 transition-colors">Inicio</h1>
                 </a>
             </div>
+            <!-- Mobile Menu Button on the right -->
+            <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
         </header>
 
         <!-- Content Area -->
-        <div class="flex-1 overflow-y-auto p-8 relative">
+        <div class="flex-1 overflow-y-auto p-8 pb-24 md:pb-8 relative">
             
             <div class="flex items-center justify-between mb-8">
                 <h2 class="text-3xl font-heading uppercase tracking-widest text-white">Dashboard</h2>
@@ -419,6 +423,76 @@ try {
 
         const chart = new ApexCharts(document.querySelector("#mainChart"), chartOptions);
         chart.render();
+    </script>
+    <!-- Mobile App Footer Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-[#0a0a0a] border-t border-white/10 z-50 flex justify-around items-center h-16 px-2">
+        <a href="dashboard" class="flex flex-col items-center justify-center w-full h-full text-white">
+            <span class="material-symbols-outlined text-[20px] mb-1">home</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Inicio</span>
+        </a>
+        <a href="citas" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">event_note</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Citas</span>
+        </a>
+        <a href="servicios" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">design_services</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Servicios</span>
+        </a>
+        <a href="reportes" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">bar_chart</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Reportes</span>
+        </a>
+        <a href="barberos" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">content_cut</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Staff</span>
+        </a>
+        <a href="horarios" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">schedule</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Horario</span>
+        </a>
+    </nav>
+
+    <!-- Mobile Drawer Menu (Admin) -->
+    <div id="mobile-drawer"
+        class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-8 translate-x-full transition-transform duration-500 md:hidden">
+        <div class="flex justify-between items-center">
+            <span class="text-xl font-heading text-white uppercase tracking-widest">Panel Admin</span>
+            <button id="close-drawer-btn" class="p-2 text-white hover:text-slate-300">
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+        </div>
+
+        <nav class="flex flex-col gap-6 text-center font-heading text-3xl uppercase tracking-widest">
+            <a href="dashboard" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Inicio</a>
+            <a href="citas" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Citas</a>
+            <a href="servicios" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Servicios</a>
+            <a href="reportes" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Reportes</a>
+            <a href="barberos" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Staff</a>
+            <a href="horarios" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Horario</a>
+        </nav>
+
+        <div class="pb-8">
+            <a href="logout"
+                class="w-full h-16 flex items-center justify-center rounded-2xl bg-red-500/10 text-red-500 border border-red-500/20 font-black uppercase tracking-[0.2em] shadow-xl hover:bg-red-500/20 transition-all text-lg">
+                Salir del Panel
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Drawer Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        if (menuBtn && closeBtn && drawer) {
+            menuBtn.addEventListener('click', () => drawer.classList.remove('translate-x-full'));
+            closeBtn.addEventListener('click', () => drawer.classList.add('translate-x-full'));
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => drawer.classList.add('translate-x-full'));
+            });
+        }
     </script>
 </body>
 </html>

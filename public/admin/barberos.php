@@ -44,7 +44,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
 <body class="bg-[#050505] text-slate-100 h-screen overflow-hidden flex selection:bg-white selection:text-black">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="w-64 bg-[#0a0a0a] border-r border-white/5 flex flex-col flex-shrink-0 relative z-20 transition-all duration-300">
+    <aside id="sidebar" class="hidden md:flex w-64 bg-[#0a0a0a] border-r border-white/5 flex-col flex-shrink-0 relative z-20 transition-all duration-300">
         <!-- Logo -->
         <div class="h-20 flex items-center justify-center border-b border-white/5 px-4 overflow-hidden">
             <a href="dashboard" class="flex items-center justify-center w-full">
@@ -100,23 +100,33 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
         <!-- Topbar -->
         <header class="h-20 bg-[#0a0a0a] border-b border-white/5 flex items-center justify-between px-8 flex-shrink-0 relative z-10">
             <div class="flex items-center gap-4">
-                <button id="sidebarToggle" class="text-slate-400 hover:text-white transition-colors">
+                <button id="sidebarToggle" class="hidden md:block text-slate-400 hover:text-white transition-colors">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
                 <a href="dashboard" class="block">
                     <h1 class="text-2xl font-heading uppercase tracking-widest text-white mt-1 hover:text-slate-300 transition-colors">Barberos</h1>
                 </a>
             </div>
+            <!-- Mobile Menu Button on the right -->
+            <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-3xl">menu</span>
+            </button>
         </header>
 
         <!-- Content Area -->
-        <div class="flex-1 overflow-y-auto p-8 relative">
+        <div class="flex-1 overflow-y-auto p-8 pb-24 md:pb-8 relative">
             
-            <div class="flex items-center justify-between mb-8">
+            <div class="flex items-center justify-between mb-4">
                 <h2 class="text-3xl font-heading uppercase tracking-widest text-white">Gestión de Barberos</h2>
                 <div class="text-xs font-bold uppercase tracking-[0.2em] text-slate-500 hidden sm:block text-right mt-1">
                     Inicio / <span class="text-white">Barberos</span>
                 </div>
+            </div>
+            <div class="mb-8 flex justify-end">
+                <button id="btnNuevoBarbero" class="bg-white text-black px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-[0.1em] hover:bg-slate-200 transition-colors flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)]">
+                    <span class="material-symbols-outlined text-[16px]">add</span>
+                    Nuevo Barbero
+                </button>
             </div>
 
             <?php if (isset($_SESSION['success_msg'])): ?>
@@ -139,21 +149,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             <?php endif; ?>
 
             <!-- Datatable Panel -->
-            <div class="bg-[#0a0a0a] border border-white/5 rounded-2xl p-6 shadow-xl flex flex-col">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                    <div class="flex items-center gap-2 text-white">
-                        <span class="material-symbols-outlined text-[18px] text-emerald-400">group</span>
-                        <h3 class="text-xs font-bold uppercase tracking-[0.1em]">Lista de Barberos</h3>
-                    </div>
-                    <button id="btnNuevoBarbero" class="bg-white text-black px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-[0.1em] hover:bg-slate-200 transition-colors flex items-center gap-2">
-                        <span class="material-symbols-outlined text-[16px]">add</span>
-                        Nuevo Barbero
-                    </button>
-                </div>
+            <div class="bg-transparent md:bg-[#0a0a0a] border-none md:border md:border-white/5 rounded-2xl md:p-6 shadow-none md:shadow-xl flex flex-col">
                 
                 <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead>
+                    <table class="w-full text-left border-collapse block md:table">
+                        <thead class="hidden md:table-header-group">
                             <tr>
                                 <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Nombre</th>
                                 <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Apellido</th>
@@ -161,7 +161,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                 <th class="py-4 px-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500 text-right">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody class="text-sm">
+                        <tbody class="block md:table-row-group text-sm">
                             <?php
                             try {
                                 $stmt = $pdo->query("SELECT * FROM barberos ORDER BY id ASC");
@@ -174,12 +174,12 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                         $dotClass = $activo === 1 ? 'bg-emerald-400' : 'bg-red-400';
                                         $statusText = $activo === 1 ? 'Activo' : 'Inactivo';
                             ?>
-                            <tr class="hover:bg-white/5 transition-colors group cursor-context-menu" 
+                            <tr class="block md:table-row hover:bg-white/5 transition-colors group cursor-context-menu mb-4 md:mb-0 border border-white/10 md:border-none rounded-2xl md:rounded-none p-4 md:p-0 bg-[#0f0f0f] md:bg-transparent relative" 
                                 data-id="<?php echo $barbero['id']; ?>"
                                 data-nombre="<?php echo htmlspecialchars($barbero['nombre']); ?>"
                                 data-apellido="<?php echo htmlspecialchars($barbero['apellido']); ?>"
                                 data-activo="<?php echo $barbero['activo']; ?>">
-                                <td class="py-4 px-4 text-white font-semibold">
+                                <td class="block md:table-cell py-2 md:py-4 px-0 md:px-4 md:w-auto w-[85%] text-white font-semibold">
                                     <div class="flex items-center gap-3">
                                         <?php if (!empty($barbero['foto'])): ?>
                                             <?php 
@@ -188,31 +188,35 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
                                             ?>
                                             <img src="<?php echo htmlspecialchars($fotoPath); ?>" class="w-8 h-8 rounded-full object-cover border border-white/10">
                                         <?php else: ?>
-                                            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
+                                            <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/10 flex-shrink-0">
                                                 <span class="material-symbols-outlined text-[16px] text-white/50">person</span>
                                             </div>
                                         <?php endif; ?>
-                                        <span><?php echo htmlspecialchars($barbero['nombre']); ?></span>
+                                        <span class="text-base md:text-sm"><?php echo htmlspecialchars($barbero['nombre']); ?></span>
                                     </div>
                                 </td>
-                                <td class="py-4 px-4 text-slate-400"><?php echo htmlspecialchars($barbero['apellido']); ?></td>
-                                <td class="py-4 px-4">
+                                <td class="flex md:table-cell justify-between items-center py-2 md:py-4 px-0 md:px-4 text-slate-400 font-medium text-xs border-t border-white/5 md:border-none mt-3 md:mt-0 pt-3 md:pt-4">
+                                    <span class="md:hidden text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Apellido</span>
+                                    <span class="text-right"><?php echo htmlspecialchars($barbero['apellido']); ?></span>
+                                </td>
+                                <td class="flex md:table-cell justify-between items-center py-2 md:py-4 px-0 md:px-4">
+                                    <span class="md:hidden text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Estado</span>
                                     <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider border <?php echo $statusClass; ?>">
                                         <span class="w-1.5 h-1.5 rounded-full <?php echo $dotClass; ?>"></span>
                                         <?php echo $statusText; ?>
                                     </span>
                                 </td>
-                                <td class="py-4 px-4 text-right">
-                                    <button onclick='openModal("editar", {"id": "<?php echo $barbero["id"]; ?>", "nombre": "<?php echo addslashes($barbero["nombre"]); ?>", "apellido": "<?php echo addslashes($barbero["apellido"]); ?>", "activo": "<?php echo $barbero["activo"]; ?>"})' class="text-slate-500 hover:text-white transition-colors p-1"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+                                <td class="absolute md:static top-4 right-4 md:py-4 md:px-4 text-right">
+                                    <button onclick='openModal("editar", {"id": "<?php echo $barbero["id"]; ?>", "nombre": "<?php echo addslashes($barbero["nombre"]); ?>", "apellido": "<?php echo addslashes($barbero["apellido"]); ?>", "activo": "<?php echo $barbero["activo"]; ?>"})' class="text-slate-500 hover:text-white transition-colors p-2 bg-black md:bg-transparent rounded-lg border border-white/5 md:border-none flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">edit</span></button>
                                 </td>
                             </tr>
                             <?php
                                     }
                                 } else {
-                                    echo '<tr><td colspan="4" class="py-8 text-center text-slate-500 text-xs">No hay barberos registrados.</td></tr>';
+                                    echo '<tr class="block md:table-row"><td colspan="4" class="py-8 text-center text-slate-500 text-xs block md:table-cell">No hay barberos registrados.</td></tr>';
                                 }
                             } catch (PDOException $e) {
-                                echo '<tr><td colspan="4" class="py-8 text-center text-red-500 text-xs">Error al cargar datos.</td></tr>';
+                                echo '<tr class="block md:table-row"><td colspan="4" class="py-8 text-center text-red-500 text-xs block md:table-cell">Error al cargar datos.</td></tr>';
                             }
                             ?>
                         </tbody>
@@ -485,6 +489,76 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             hideContextMenu();
             if (currentRowData) openDeleteModal(currentRowData);
         });
+    </script>
+    <!-- Mobile App Footer Navigation -->
+    <nav class="md:hidden fixed bottom-0 left-0 w-full bg-[#0a0a0a] border-t border-white/10 z-50 flex justify-around items-center h-16 px-2">
+        <a href="dashboard" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">home</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Inicio</span>
+        </a>
+        <a href="citas" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">event_note</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Citas</span>
+        </a>
+        <a href="servicios" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">design_services</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Servicios</span>
+        </a>
+        <a href="reportes" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">bar_chart</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Reportes</span>
+        </a>
+        <a href="barberos" class="flex flex-col items-center justify-center w-full h-full text-white">
+            <span class="material-symbols-outlined text-[20px] mb-1">content_cut</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Staff</span>
+        </a>
+        <a href="horarios" class="flex flex-col items-center justify-center w-full h-full text-slate-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined text-[20px] mb-1">schedule</span>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Horario</span>
+        </a>
+    </nav>
+
+    <!-- Mobile Drawer Menu (Admin) -->
+    <div id="mobile-drawer"
+        class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-8 translate-x-full transition-transform duration-500 md:hidden">
+        <div class="flex justify-between items-center">
+            <span class="text-xl font-heading text-white uppercase tracking-widest">Panel Admin</span>
+            <button id="close-drawer-btn" class="p-2 text-white hover:text-slate-300">
+                <span class="material-symbols-outlined text-3xl">close</span>
+            </button>
+        </div>
+
+        <nav class="flex flex-col gap-6 text-center font-heading text-3xl uppercase tracking-widest">
+            <a href="dashboard" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Inicio</a>
+            <a href="citas" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Citas</a>
+            <a href="servicios" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Servicios</a>
+            <a href="reportes" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Reportes</a>
+            <a href="barberos" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Staff</a>
+            <a href="horarios" class="mobile-nav-link text-white hover:text-slate-300 transition-colors">Horario</a>
+        </nav>
+
+        <div class="pb-8">
+            <a href="logout"
+                class="w-full h-16 flex items-center justify-center rounded-2xl bg-red-500/10 text-red-500 border border-red-500/20 font-black uppercase tracking-[0.2em] shadow-xl hover:bg-red-500/20 transition-all text-lg">
+                Salir del Panel
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Drawer Logic
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const closeBtn = document.getElementById('close-drawer-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+
+        if (menuBtn && closeBtn && drawer) {
+            menuBtn.addEventListener('click', () => drawer.classList.remove('translate-x-full'));
+            closeBtn.addEventListener('click', () => drawer.classList.add('translate-x-full'));
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', () => drawer.classList.add('translate-x-full'));
+            });
+        }
     </script>
 </body>
 </html>
